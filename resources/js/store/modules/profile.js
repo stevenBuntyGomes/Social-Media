@@ -26,7 +26,7 @@ const getters = {
         return state.user.data.attributes.friendship;
     },
 
-    friendButtonText: (state, getters, rootState) => {
+    friendButtonText: (state, getters, rootState) => { //rootState is the state of other store modules
         // return state.friendButtonText;
         if(rootState.User.user.data.user_id == state.user.data.user_id){
             return '';
@@ -46,7 +46,7 @@ const getters = {
 const actions = {
     fetchUser({commit, dispatch}, userId){
         // var self = this;
-
+            commit('setUserStatus', 'loading');
             axios.get('/api/users/' + userId)
                 .then(function (response){
                     commit('setUser', response.data);

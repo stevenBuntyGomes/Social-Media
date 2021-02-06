@@ -112,7 +112,7 @@ class FriendsTest extends TestCase
         $friendRequest = \App\Friend::first();
         $this->assertNotNull($friendRequest->confirmed_at);
         $this->assertInstanceOf(Carbon::class, $friendRequest->confirmed_at);
-        $this->assertEquals(now()->startOfSecond(), $friendRequest->confirmed_at);
+        $this->assertEquals(now()->startOfSecond(), $friendRequest->confirmed_at); //startOfSecond() will ensure that that it starts from micro seconds in  carbon
         $this->assertEquals(1, $friendRequest->status);
         $response->assertJson([
             'data' => [
@@ -136,7 +136,7 @@ class FriendsTest extends TestCase
         $anotherUser = factory(\App\User::class)->create();
         $response = $this->actingAs($anotherUser, 'api')
         ->post('/api/friend-request-response', [
-         'user_id' => 123,
+            'user_id' => 123,
             'status' => 1,
         ])->assertStatus(404);
 
@@ -186,7 +186,7 @@ class FriendsTest extends TestCase
             'friend_id' => '',
         ]);
 
-        $responseString = json_decode($response->getContent(), true);
+        $responseString = json_decode($response->getContent(), true); //true is turning this object into array
         $this->assertArrayHasKey('friend_id', $responseString['errors']['meta']);
         //dd($responseString);
         //dd($response->getContent());  //die and dump

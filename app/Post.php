@@ -24,6 +24,12 @@ class Post extends Model
 
     public function likes(){
         return $this->belongsToMany(User::class, 'likes', 'post_id', 'user_id');
+        // first User::class means post belongs to many User. second 'likes' is pivot table
+        //that connects User and Post model or tables. It has 'post_id' it means where the
+        //like belongs to and 'user_id' which is the related key that connects post and Like
+        //model or table. post_od is connected to Post model's id column
+        //this simply means which post column should connect with which user through like
+        // table
     }
 
 

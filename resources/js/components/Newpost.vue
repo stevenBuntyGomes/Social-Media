@@ -88,7 +88,7 @@ export default {
                 paramName: 'image',
                 url: '/api/posts',
                 acceptedFiles: 'image/*',
-                clickable: '.dz-clickable',
+                clickable: '.dz-clickable', //it will become clickable
                 autoProcessQueue: false,
                 previewsContainer: '.dropzone-previews',
                 previewTemplate: document.querySelector('#dz-template').innerHTML,

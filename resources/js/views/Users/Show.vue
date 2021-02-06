@@ -44,8 +44,8 @@
                 </button>
             </div>
         </div>
-         <div v-if = "profileStatus.post == 'loading'">Loading posts....</div>
-        <div v-else-if = "profileStatus.post == 'success' && posts.length < 1">No posts found....!</div>
+            <div v-if = "newsPostStatus.newsPostStatus == 'loading'">Loading posts....</div>
+            <div v-else-if = "newsPostStatus.newsPostStatus == 'success' && posts.length < 1">No posts found....!</div>
             <Post v-else v-for = "(post, postKey) in posts.data" :key = "postKey" :post="post"></Post>
     </div>
 
@@ -84,6 +84,7 @@
                 user: 'user',
                 posts: 'posts',
                 profileStatus: 'profileStatus',
+                newsPostStatus: 'newsPostStatus',
                 friendButtonText: 'friendButtonText',
             }),
         }

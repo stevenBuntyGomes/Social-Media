@@ -15,7 +15,7 @@ class CreateUserImagesTable extends Migration
     {
         Schema::create('user_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id'); //bigUnsignedInteger
             $table->string('path');
             $table->string('width');
             $table->string('height');

@@ -21,8 +21,9 @@
                 <img class = "w-8 h-8 object-cover rounded-full"
                 :src="authUser.data.attributes.profile_image.data.attributes.path" alt="">
             </router-link>
-            <router-link to="/" class = "px-6 border-b-2 border-white h-full flex items-center">
+            <router-link to="/chatApp" class = "px-6 border-b-2 border-white h-full flex items-center relative">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-5 h-5"><path d="M.5 11.6c0 3.4 1.7 6.3 4.3 8.3V24l3.9-2.1c1 .3 2.2.4 3.3.4 6.4 0 11.5-4.8 11.5-10.7C23.5 5.8 18.3 1 12 1S.5 5.8.5 11.6zm10.3-2.9l3 3.1 5.6-3.1-6.3 6.7-2.9-3.1-5.7 3.1 6.3-6.7z"/></svg>
+                <div class = "alertMessage" v-if = "getNotification"></div>
             </router-link>
         </div>
         <div class = "w-1/3 flex justify-end">
@@ -37,6 +38,11 @@ import {mapGetters} from 'vuex';
 
 export default {
     name: 'Nav',
+    data: () => {
+        return {
+            notification: false,
+        }
+    },
 
     // data: () => {
     //     return {
@@ -48,15 +54,44 @@ export default {
 
     // }
 
+
+
+
+    created(){
+            var self = this;
+            axios.get('/api/countChatContacts')
+            .then(function (response){
+                if(response.data > 0){
+                    // self.getNotification = true;
+                    self.$store.dispatch('notify', true);
+                }else{
+                    self.$store.dispatch('notify', false);
+                }
+            })
+            .catch(function (error){
+
+            })
+    },
+
+
     computed: {
         ...mapGetters({
-            authUser: 'authUser'
+            authUser: 'authUser',
+            getNotification: 'getNotification',
         })
-    }
+    },
 }
 </script>
 
 
 <style scoped>
-
+    .alertMessage{
+        position: absolute;
+        top: 25%;
+        right: 25%;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #00FF00;
+    }
 </style>

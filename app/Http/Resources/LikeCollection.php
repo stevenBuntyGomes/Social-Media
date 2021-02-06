@@ -17,6 +17,7 @@ class LikeCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'like_count' => $this->count(),
+            //this is a method that is provided by laravel count()
             'user_likes_post' => $this->collection->contains('id', auth()->user()->id),
             'links' => [
                 'self' => url('/posts'),

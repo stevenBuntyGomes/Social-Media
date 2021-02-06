@@ -29,6 +29,8 @@ class FriendRequestResponseController extends Controller
         $friendRequest->update(array_merge($data, [
             'confirmed_at' => now(),
         ]));
+        //merging the $data array and Friend::model array together
+        //this way the confirmed_at will join with user_id and status together
 
         return new FriendResource($friendRequest);
     }

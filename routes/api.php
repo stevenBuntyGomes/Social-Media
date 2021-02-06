@@ -47,4 +47,14 @@ Route::middleware('auth:api')->group(function() {
     // Route::apiResources([
     //     'users', 'UserController',
     // ]);
+
+
+    // contact message route starts
+
+    Route::get('/contacts', 'ContactsController@get');
+    Route::get('/conversation/{message_id}', 'ContactsController@getMessagesFor');
+    Route::post('/conversation/send', 'ContactsController@sendMessage');
+    Route::get('/countChatContacts', 'ContactsController@totalUnread');
+
+    // contact message route ends
 });

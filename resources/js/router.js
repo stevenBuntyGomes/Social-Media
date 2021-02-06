@@ -8,6 +8,7 @@ Vue.use(VueRouter)
 import start from './views/start.vue'
 import Show from './views/Users/Show.vue'
 import NewsFeed from './views/Newsfeed.vue'
+import chatApp from './components/chat/chatApp.vue'
 
 // importing routes ends
 
@@ -30,6 +31,12 @@ const routes = [
             component: NewsFeed,
             name: 'NewsFeed',
             meta: { title: 'News Feed' },
+        },
+        {
+            path: '/chatApp',
+            component: chatApp,
+            name: 'chatApp',
+            meta: { title: 'Messages' },
         }
     ];
 

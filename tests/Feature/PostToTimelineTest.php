@@ -41,16 +41,16 @@ class PostToTimelineTest extends TestCase
 
         $response->assertStatus(201)->assertJson([
             'data' => [
-                'type' => 'post',
-                'post_id' => [
-                    'data' => [
-                        'attributes' => [
-                            'name' => $user->name,
-                        ]
-                    ]
-                ],
+                'type' => 'posts',
+                'post_id' => $post->id,
                 'attributes' => [
-                    'posted_by' => $user->name,
+                    'posted_by' => [
+                        'data' => [
+                            'attributes' => [
+                                'name' => $user->name,
+                            ]
+                        ]
+                    ],
                     'body' => 'testing body'
                 ],
             ],

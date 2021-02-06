@@ -2,7 +2,8 @@
     <div class = "flex flex-col items-center py-4">
         <Newpost>
             </Newpost>
-            <p v-if = "newsPostStatus.newsPostStatus == 'loading'">Loading posts....</p>
+            <div v-if = "newsPostStatus.newsPostStatus === 'loading'">Loading posts....</div>
+            <div v-else-if = "newsPostStatus.newsPostStatus == 'success' && posts.length < 1">No posts found....!</div>
             <Post v-else v-for = "(post, postKey) in posts.data" :key = "postKey" :post="post"></Post>
     </div>
 </template>

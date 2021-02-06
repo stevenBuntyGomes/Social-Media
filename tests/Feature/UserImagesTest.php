@@ -43,6 +43,7 @@ class UserImagesTest extends TestCase
         $this->assertEquals('user-images/'  . $file->hashName(), $userImage->path);
         $this->assertEquals('850', $userImage->width);
         $this->assertEquals('300', $userImage->height);
+        $this->assertEquals('cover', $userImage->location); // practice
         $this->assertEquals($user->id, $userImage->user_id);
         $response->assertJson([
             'data' => [

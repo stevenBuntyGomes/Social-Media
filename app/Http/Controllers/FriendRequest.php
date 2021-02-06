@@ -15,12 +15,31 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class FriendRequest extends Controller
 {
     public function store(){
-            $data = request()->validate([
-                'friend_id' => 'required',
-            ]);
+        // laravel testing starts for validationException
+        // try{
+        //     $data = request()->validate([
+        //         'friend_id' => 'required',
+        //     ]);
+        // } catch(ValidationException $e){
+        //     // return response()->json([
+        //     //     'errors' => [
+        //     //         'code' => 422,
+        //     //         'title' => 'Validation Error',
+        //     //         'detail' => 'your request is malformed or missing fields',
+        //     //         'meta' => $e->errors(),
+        //     //     ]
+        //     // ], 422);
+        //     throw new ValidationErrorException(json_encode($e->errors()));
+        // }
+        // laravel testing ends for validationException
+        $data = request()->validate([
+            'friend_id' => 'required',
+        ]);
+
 
         try {
             User::findOrFail($data['friend_id'])->friends()->syncWithoutDetaching(auth()->user()); //attach method will attach over and over again
+            //syncWIthoutDetaching will only ever make one record.. it will not allow same record to be stored twice
         } catch (ModelNotFoundException $e){
             throw new UserNotFoundException();
         }

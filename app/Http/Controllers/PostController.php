@@ -54,7 +54,7 @@ class PostController extends Controller
         //$post = request()->user()->posts()->create($data['data']['attributes']);
         $post = request()->user()->posts()->create([
             'body' => $data['body'],
-            'image' => $image ?? null,
+            'image' => $image ?? null, //?? is or operator
 
         ]);
         return new PostResource($post);

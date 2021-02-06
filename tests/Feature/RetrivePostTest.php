@@ -60,7 +60,7 @@ class RetrivePostTest extends TestCase
     /** @test */
     public function a_user_can_only_retrive_their_post(){
         $this->actingAs($user = factory(\App\User::class)->create(), 'api');
-        $posts = factory(\App\Post::class, 2)->create();
+        $posts = factory(\App\Post::class)->create();
 
         $response = $this->get('/api/posts');
 

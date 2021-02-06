@@ -52,6 +52,10 @@ class User extends Authenticatable
 
     public function likedPosts(){
         return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id');
+        // first Post::class means User belongs to many Post. second 'likes' is pivot table
+        //that connects User and Post model or tables. It has 'user_id' it means where the
+        //like belongs to and 'post_id' which is the related key that connects User and Like
+        //model or table. user_id is connected to User model's id column
     }
 
 
@@ -81,6 +85,11 @@ class User extends Authenticatable
                 $userImage->path = 'user-images/profile-default-image.jpg';
             });
     }
+
+
+    // public function myFriends(){
+    //     return $this->belongsToMany(User::class, 'friends', )
+    // }
 
     // userImage relationship ends
 }

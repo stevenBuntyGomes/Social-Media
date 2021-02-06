@@ -6,8 +6,8 @@
 
                     <div class = "w-2/3 overflow-x-hidden">
 
-                        <!-- <Newsfeed></Newsfeed> -->
-                        <!-- <Show></Show> -->
+                         <!-- <Newsfeed></Newsfeed>
+                        <Show></Show> -->
                         <router-view :key = "$route.fullPath"></router-view>
                     </div>
 

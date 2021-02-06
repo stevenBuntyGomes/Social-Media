@@ -23,7 +23,6 @@ const getters = {
 const actions = {
     fetchNewsPosts({commit, state}){
         commit('setPostStatus', 'loading');
-        // var self = this;
         axios.get('/api/get_posts')
             .then(function (response) {
                 // self.posts = response.data
@@ -31,7 +30,7 @@ const actions = {
                 commit('setPostStatus', 'success');
             })
             .catch(function (error) {
-                commit('setPostStatus', 'error');
+                commit('setPostStatus', 'failure or error');
             })
     },
 
