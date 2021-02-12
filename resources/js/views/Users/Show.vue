@@ -27,7 +27,12 @@
                 <p class = "text-2xl text-gray-100 ml-4">{{ user.data.attributes.name }}</p>
             </div>
             <div class="absolute flex items-center bottom-0 right-0 mb-4 mr-12 z-20">
-                <button v-if = "friendButtonText && friendButtonText !== 'Accept'"
+                <button v-if = "friendButtonText && friendButtonText == 'Add Friend'"
+                    class = "py-1 px-3 bg-gray-400 rounded"
+                    @click = "$store.dispatch('sendFriendRequest', $route.params.userId)">
+                    {{ friendButtonText }}
+                </button>
+                <button v-if = "friendButtonText && friendButtonText == 'Pending Friend Request'"
                     class = "py-1 px-3 bg-gray-400 rounded"
                     @click = "$store.dispatch('sendFriendRequest', $route.params.userId)">
                     {{ friendButtonText }}
@@ -42,6 +47,26 @@
                     @click = "$store.dispatch('ignoreFriendRequest', $route.params.userId)">
                     Ignore
                 </button>
+                <button v-if = "friendButtonText && friendButtonText == 'options'"
+                    class = "mr-2 py-1 px-3 bg-gray-400 rounded"
+                    @click = "option = ! option">
+                    {{ friendButtonText }}
+                </button>
+                <!-- absolute path -->
+                <div class = "w-6 flex justify-end relative">
+            <div v-if="option && friendButtonText == 'options'" class = "z-50 absolute top-8 bg-white border border-gray-400 shadow-sm">
+                <div class = "">
+                    <ul>
+                        <li class = "p-3 m-0 border border-gray-400">
+                            <button @click = "$store.dispatch('deleteFriendship', $route.params.userId)">
+                                Unfriend
+                            </button></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+                <!-- absolute path -->
             </div>
         </div>
             <div v-if = "newsPostStatus.newsPostStatus == 'loading'">Loading posts....</div>
@@ -62,6 +87,12 @@
         //         postLoading: true,
         //     }
         // },
+
+        data: () => {
+            return {
+                option: false,
+            }
+        },
 
 
         components: {

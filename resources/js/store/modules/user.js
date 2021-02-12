@@ -1,11 +1,16 @@
 const state = {
     user: null,
     userStatus: null,
+    settingsToggle: false,
 };
 
 const getters = {
     authUser(state) {
         return state.user;
+    },
+
+    toggleSettings(state){
+        return state.settingsToggle;
     }
 };
 
@@ -20,12 +25,33 @@ const actions = {
             .catch(function (error){
                 console.log('unable to fetch auth user')
             })
+    },
+
+    // fetching settings toggle data
+    fetchSettings({commit, state}, data){
+        commit('setAuthSettings', data);
+    },
+
+
+    AuthLogOut(){
+        axios.post('logout')
+            .then(function (response){
+                // self.user = response.data;
+                window.location.reload();
+            })
+            .catch(function (error){
+                // console.log('unable to fetch auth user')
+            })
     }
 };
 
 const mutations = {
     setAuthUser(state, data){
         state.user = data;
+    },
+
+    setAuthSettings(state, data){
+        state.settingsToggle = data;
     }
 };
 

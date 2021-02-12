@@ -9,6 +9,7 @@ import start from './views/start.vue'
 import Show from './views/Users/Show.vue'
 import NewsFeed from './views/Newsfeed.vue'
 import chatApp from './components/chat/chatApp.vue'
+import accountSettings from './components/settings/accountSettings.vue'
 
 // importing routes ends
 
@@ -37,6 +38,12 @@ const routes = [
             component: chatApp,
             name: 'chatApp',
             meta: { title: 'Messages' },
+        },
+        {
+            path: '/accountSettings',
+            component: accountSettings,
+            name: 'accountSettings',
+            meta: { title: 'accountSettings' },
         }
     ];
 

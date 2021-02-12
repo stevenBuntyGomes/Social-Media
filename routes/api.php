@@ -33,6 +33,7 @@ Route::middleware('auth:api')->group(function() {
     // Route::post('/friend-request-response/delete', 'FriendRequestResponseController@destroy');
     Route::Resource('/friend-request-response', 'FriendRequestResponseController');
     Route::post('/friend-request-response/delete', 'FriendRequestResponseController@destroy');
+    Route::post('/friend-request-response/unfriend', 'FriendRequestResponseController@unfriend');
 
     // user image controller
 
@@ -42,6 +43,9 @@ Route::middleware('auth:api')->group(function() {
 
 
     Route::get('/auth-user', 'AuthUserController@show');
+    Route::post('/auth-user/nameUpdate', 'AuthUserController@updateName');
+    Route::post('/auth-user/passwordUpdate', 'AuthUserController@updatePassword');
+    Route::post('/auth-logout', 'AuthUserController@logout');
     // Route::get();
 
     // Route::apiResources([
