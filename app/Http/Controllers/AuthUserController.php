@@ -16,10 +16,10 @@ class AuthUserController extends Controller
     }
 
 
-    public function logout(Request $request){
-        Auth::logout();
-        return redirect('/login');
-    }
+    // public function logout(Request $request){
+    //     Auth::logout();
+    //     return redirect('/login');
+    // }
 
 
     public function updateName(){

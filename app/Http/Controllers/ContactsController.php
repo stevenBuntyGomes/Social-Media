@@ -7,6 +7,7 @@ use App\Friend;
 use App\Message;
 use App\Events\NewMessage;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserCollection as UserCollection;
 use Illuminate\Support\Facades\DB;
 
 class ContactsController extends Controller
@@ -16,7 +17,7 @@ class ContactsController extends Controller
         $totalCount = count($totalUnread);
         // get all users except the authintaced one
         $friends = Friend::friendships();
-        $contacts = User::whereIn('id', $friends->pluck('user_id'))->orWhereIn('id', $friends->pluck('friend_id'))->where('id', '!=', auth()->id())->get();
+        $contacts = User::whereIn('id', $friends->pluck('user_id'))->orWhereIn('id', $friends->pluck('friend_id'))->where('id', '!=', Auth()->id())->get();
         //above query $contacts is getting all the friends that has accepted the friend request
         $unreadIds = Message::select(DB::raw('`from` as sender_id, count(`from`) as messages_count')) //step 3
             ->where('to', auth()->id()) //step 1
@@ -30,6 +31,7 @@ class ContactsController extends Controller
             return $contact;
         });
         return response()->json($contacts);
+        // return new UserCollection($contacts);
     }
 
 

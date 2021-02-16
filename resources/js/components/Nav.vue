@@ -9,7 +9,7 @@
                             <path fill-rule="evenodd" d="M20.2 18.1l-1.4 1.3-5.5-5.2 1.4-1.3 5.5 5.2zM7.5 12c-2.7 0-4.9-2.1-4.9-4.6s2.2-4.6 4.9-4.6 4.9 2.1 4.9 4.6S10.2 12 7.5 12zM7.5.8C3.7.8.7 3.7.7 7.3s3.1 6.5 6.8 6.5c3.8 0 6.8-2.9 6.8-6.5S11.3.8 7.5.8z" clip-rule="evenodd"/>
                         </svg>
                     </div>
-                    <input type="text" name = "search" class = "rounded-full w-56 h-8 bg-gray-200 pl-8 focus:outline-none focus:shadow-outline text-sm" placeholder = "Search Facebook">
+                    <input v-model = "keywords" type="text" name = "search" class = "rounded-full w-56 h-8 bg-gray-200 pl-8 focus:outline-none focus:shadow-outline text-sm" placeholder = "Search Facebook">
                 </div>
             </div>
         </div>
@@ -57,6 +57,7 @@ export default {
         return {
             notification: false,
             settings: false,
+            keywords: null,
         }
     },
 
@@ -96,7 +97,17 @@ export default {
         // }
         logout(){
             this.$store.dispatch('AuthLogOut');
-        }
+        },
+
+
+        fetch(){
+            this.$store.dispatch('fetchUserSearch', {
+                keywords: this.keywords,
+            });
+        },
+
+
+
     },
 
 
@@ -105,7 +116,15 @@ export default {
             authUser: 'authUser',
             getNotification: 'getNotification',
             toggleSettings: 'toggleSettings',
+            getUserSearch: 'getUserSearch',
         })
+    },
+
+
+    watch: {
+        keywords(after, before){
+            this.fetch();
+        }
     },
 }
 </script>

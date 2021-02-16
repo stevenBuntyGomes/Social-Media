@@ -45,12 +45,18 @@ Route::middleware('auth:api')->group(function() {
     Route::get('/auth-user', 'AuthUserController@show');
     Route::post('/auth-user/nameUpdate', 'AuthUserController@updateName');
     Route::post('/auth-user/passwordUpdate', 'AuthUserController@updatePassword');
-    Route::post('/auth-logout', 'AuthUserController@logout');
+    // Route::post('/auth-logout', 'AuthUserController@logout');
     // Route::get();
 
     // Route::apiResources([
-    //     'users', 'UserController',
-    // ]);
+        //     'users', 'UserController',
+        // ]);
+
+    // search part starts
+
+    Route::post('/search/userSearch', 'SearchController@userSearch');
+
+    // search part ends
 
 
     // contact message route starts

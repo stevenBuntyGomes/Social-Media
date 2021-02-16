@@ -34,7 +34,7 @@ const actions = {
 
 
     AuthLogOut(){
-        axios.post('logout')
+        axios.post('/logout')
             .then(function (response){
                 // self.user = response.data;
                 window.location.reload();
