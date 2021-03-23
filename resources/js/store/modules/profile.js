@@ -6,6 +6,7 @@ const state = {
     // posts: null,
     // postStatus: null,
     // friendButtonText: null,
+    userFriends: [],
 };
 
 const getters = {
@@ -52,6 +53,11 @@ const getters = {
 
     getNameStatus(state){
         return state.nameStatus;
+    }, 
+
+
+    getUserFriends(state){
+        return state.userFriends;
     }
 };
 
@@ -152,7 +158,23 @@ const actions = {
             .catch(function (error){
                 // commit('setButtonText', 'Add Friend');
             });
+    },
+
+
+
+    // get user friends in the friend list starts
+
+    fetchUserFriends({commit, state}){
+        axios.post('api/user/authFriends')
+        .then(function (response){
+            commit('setUserFriends', response.data);
+        })
+        .catch(function (error){
+            // 
+        })
     }
+
+    // get user friends in the friend list ends
 };
 
 const mutations = {
@@ -183,7 +205,16 @@ const mutations = {
 
     setNameStatus(state, data){
         state.nameStatus = data;
+    },
+
+
+
+    // get user friends starts
+
+    setUserFriends(state, data){
+        state.userFriends = data;
     }
+    // get user friends ends
 };
 
 export default {

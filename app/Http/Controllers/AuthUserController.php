@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Friend;
 use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserCollection as UserCollection;
 
 
 class AuthUserController extends Controller
@@ -71,5 +73,18 @@ class AuthUserController extends Controller
             $status = 1;
             return response()->json($status);
         }
+    }
+
+
+    public function getFriends(){
+        // $data = request()->validate([
+        //     'user_id' => 'required|numeric',
+        // ]);
+
+
+        $friends = Friend::friendships();
+        $userFriends = User::whereIn('id', $friends->pluck('user_id'))->orWhereIn('id', $friends->pluck('friend_id'))->where('id', '!=', Auth()->id())->get();
+          
+        return new UserCollection($userFriends);
     }
 }

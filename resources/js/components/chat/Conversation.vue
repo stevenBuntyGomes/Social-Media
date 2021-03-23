@@ -1,8 +1,8 @@
 <template>
     <div class="conversation">
-        <h1>{{ contact ? contact.name : 'select a contact' }}</h1>
+        <h1 class = "selected_contact">{{ contact ? contact.data.attributes.name : 'select a contact' }}</h1>
         <MessagesFeed :contact = "contact" :messages = "messages"></MessagesFeed>
-        <MessageComposer @send = "sendMessage"></MessageComposer>
+        <MessageComposer :class = "[contact ? '' : 'hidden']" @send = "sendMessage"></MessageComposer>
     </div>
 </template>
 <script>
@@ -22,7 +22,7 @@ export default {
             }else{
                 var self = this;
                 axios.post('/api/conversation/send', {
-                    contact_id: this.contact.id,
+                    contact_id: this.contact.data.user_id,
                     text: text,
                 })
                 .then(function (response){
@@ -55,5 +55,19 @@ export default {
         padding: 10px;
         margin: 0;
         border-bottom: 1px dashed gray;
+    }
+
+
+    @media (max-width: 575.5px) {
+        .selected_contact{
+            text-align: center;
+        }
+    }
+
+
+    @media (min-width:576px) and (max-width:767px) {
+        .selected_contact{
+            text-align: center;
+        }
     }
 </style>

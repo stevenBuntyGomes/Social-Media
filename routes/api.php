@@ -19,6 +19,8 @@ Route::middleware('auth:api')->group(function() {
     //     return $request->user();
     // });
     Route::post('/posts', 'PostController@store');
+    Route::post('/posts/edit', 'PostController@update');
+    Route::post('/posts/destroy/', 'PostController@deletePost');
     // like
     Route::post('/posts/{post}/like', 'PostLikeController@store');
     // like
@@ -34,6 +36,8 @@ Route::middleware('auth:api')->group(function() {
     Route::Resource('/friend-request-response', 'FriendRequestResponseController');
     Route::post('/friend-request-response/delete', 'FriendRequestResponseController@destroy');
     Route::post('/friend-request-response/unfriend', 'FriendRequestResponseController@unfriend');
+    Route::post('/auth/about', 'AboutController@index');
+    Route::post('/auth/about/edit', 'AboutController@update');
 
     // user image controller
 
@@ -43,6 +47,7 @@ Route::middleware('auth:api')->group(function() {
 
 
     Route::get('/auth-user', 'AuthUserController@show');
+    Route::post('/user/authFriends', 'AuthUserController@getFriends');
     Route::post('/auth-user/nameUpdate', 'AuthUserController@updateName');
     Route::post('/auth-user/passwordUpdate', 'AuthUserController@updatePassword');
     // Route::post('/auth-logout', 'AuthUserController@logout');

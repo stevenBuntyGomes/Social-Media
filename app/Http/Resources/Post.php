@@ -28,6 +28,7 @@ class Post extends JsonResource
                     'body' => $this->body,
                     'image' => url('./storage' . '/' . $this->image),
                     'posted_at' => $this->created_at->diffForHumans(),
+                    'postKey' => $this->postKey,
                 ],
             ],
             'links' => [

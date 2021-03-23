@@ -46,6 +46,17 @@ class UserImageController extends Controller
             'location' => '',
         ]);
 
+        $user_image = UserImage::where('user_id', Auth()->id())
+            ->where('location', $data['location'])->first();
+        if($user_image != null){
+            unlink(storage_path('app/public/' . $user_image->path));
+            
+            UserImage::where('user_id', Auth()->id())
+            ->where('location', $data['location'])->delete();
+        }
+
+
+
         $image = $data['image']->store('user-images', 'public');
 
         Image::make($data['image'])

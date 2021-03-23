@@ -10,6 +10,7 @@ use App\Exceptions\ValidationErrorException;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\Friend as FriendResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Events\NewFriendRequest;
 
 
 class FriendRequest extends Controller
@@ -45,9 +46,17 @@ class FriendRequest extends Controller
         }
 
         // Friend::create($data);
+        $friend = Friend::where('user_id', auth()->user()->id)
+                ->where('friend_id', $data['friend_id'])->first();
+        broadcast(new NewFriendRequest($friend));
+
         return new FriendResource(
             Friend::where('user_id', auth()->user()->id)
                 ->where('friend_id', $data['friend_id'])->first()
         );
+
+
+
+
     }
 }

@@ -23,10 +23,11 @@ class User extends JsonResource
                 'user_id' => $this->id,
                 'attributes' => [
                     'name' => $this->name,
+                    'email' => $this->email,
                     'friendship' => new FriendResource(Friend::friendship($this->id)),
                     'cover_image' => new UserImageResource($this->coverImage),
                     'profile_image' => new UserImageResource($this->profileImage),
-                    'unread' => optional($this->unread), //last added
+                    'unread' => $this->unread, //last added
                 ],
             ],
             'links' => [

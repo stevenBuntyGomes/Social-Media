@@ -10,6 +10,9 @@ import Show from './views/Users/Show.vue'
 import NewsFeed from './views/Newsfeed.vue'
 import chatApp from './components/chat/chatApp.vue'
 import accountSettings from './components/settings/accountSettings.vue'
+import friends from './components/profile/friends.vue'
+import about from './components/profile/about.vue'
+import updateInfo from './components/profile/updateInfo.vue'
 
 // importing routes ends
 
@@ -44,7 +47,25 @@ const routes = [
             component: accountSettings,
             name: 'accountSettings',
             meta: { title: 'accountSettings' },
-        }
+        },
+        {
+            path: '/friends',
+            component: friends,
+            name: 'friends',
+            meta: { title: 'friends' },
+        },
+        {
+            path: '/about/:userId',
+            component: about,
+            name: 'about',
+            meta: { title: 'about' },
+        },
+        {
+            path: '/updateInfo',
+            component: updateInfo,
+            name: 'updateInfo',
+            meta: { title: 'updateInfo' },
+        },
     ];
 
 export default new VueRouter({

@@ -69,6 +69,25 @@ const actions = {
             })
     },
 
+    // updatePostMessage only message not image
+    updatePostMessage({commit, state}, data){
+        axios.post('/api/posts/edit', {
+            'body': data.body,
+            'post_id': data.post_id,
+        })
+            .then(function (response) {
+                // self.posts = response.data
+                commit('updatePost', {
+                    response: response.data,
+                    postKey: data.postKey,
+                });
+                commit('updateMessage', '');
+            })
+            .catch(function (error) {
+                commit('setPostStatus', 'error');
+            })
+    },
+
     // setting up like for user post
 
     likePost({commit, state}, data){
@@ -91,10 +110,27 @@ const actions = {
             .catch(function (error) {
                 // commit('setPostStatus', 'error');
             })
-    }
+    },
     // setting up comment for user post
 
+    // delete post starts
+    deleteSinglePosts({commit, state}, data){
+        axios.post('/api/posts/destroy', {
+           'post_id': data.post_id,
+           'postKey': data.postKey,
+        })
+            .then(function (response){
+                commit('removePost', {
+                    response: resonse.data,
+                    postKey: data.postKey
+                });
+            })
+            .catch(function(error){
+            
+            });
+    }
 
+    // delete post ends
 
 };
 
@@ -126,9 +162,24 @@ const mutations = {
     // wortking with comments of posts
     pushComments(state, data){
         state.posts.data[data.postKey].data.attributes.comments = data.comments;
-    }
+    },
 
     // wortking with comments of posts
+
+    // update post starts
+    updatePost(state, data){
+        state.posts.data[data.postKey].data.attributes.body = data.response.data.attributes.body;
+        state.posts.data[data.postKey].data.attributes.image = data.response.data.attributes.image;
+    },
+    // update post ends
+
+    // delete post permanently starts
+    removePost(state, data){
+        state.posts.data.splice(data.postKey, 1);
+    }
+    // delete post permanently ends
+
+
 
 };
 

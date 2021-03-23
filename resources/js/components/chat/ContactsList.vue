@@ -1,14 +1,14 @@
 <template>
     <div class="contacts-list">
         <ul>
-            <li v-for = "contact in sortedContacts" :key = "contact.id" @click = "selectContact(contact)" :class = "[(contact === selected) ? 'selected' : '', (contact.id == auth.data.user_id) ? 'hidden' : '']">
+            <li v-for = "contact in sortedContacts" :key = "contact.data.user_id" @click = "selectContact(contact)" :class = "[(contact === selected) ? 'selected' : '', (contact.data.user_id == auth.data.user_id) ? 'hidden' : '']">
                 <div class="avatar">
-                    <img class = "chat-image rounded-full" src="storage/user-images/profile-default-image.jpg" alt="hello">
+                    <img class = "chat-image rounded-full" :src="contact.data.attributes.profile_image.data.attributes.path" alt="hello">
                 </div>
                 <div class="contact">
-                    <p class = "name">{{ contact.name }}</p>
-                    <p class = "email">{{ contact.email }}</p>
-                    <span class = "unread" v-if="contact.unread">{{ contact.unread }}</span>
+                    <p class = "name">{{ contact.data.attributes.name }}</p>
+                    <p class = "email">{{ contact.data.attributes.email }}</p>
+                    <span class = "unread" v-if="contact.data.attributes.unread">{{ contact.data.attributes.unread }}</span>
                 </div>
             </li>
         </ul>
@@ -43,11 +43,11 @@ export default {
 
     computed: {
         sortedContacts(){
-            return _.sortBy(this.contacts, [(contact) => {
+            return _.sortBy(this.contacts.data, [(contact) => {
                 if(contact == this.selected){
                     return Infinity;
                 }
-                return contact.unread;
+                return contact.data.attributes.unread;
             }]).reverse();
         }
     }
@@ -110,6 +110,7 @@ export default {
         margin: 0;
         font-weight: bold;
     }
+
     .contact .unread{
         position: absolute;
         right: 11px;
@@ -128,4 +129,42 @@ export default {
     p{
         margin: 0;
     }
+
+    @media (max-width:575.5px){
+        .chat-image{
+            width: 28px!important;
+            height: 28px!important;
+        }
+
+        .name{
+            font-size: 12px;
+        }
+
+        .email{
+            font-size: 10px;
+            display: none;
+        }
+    }
+
+    @media (min-width:576px) and (max-width:767px){
+        .chat-image{
+            width: 28px!important;
+            height: 28px!important;
+        }
+
+        .name{
+            font-size: 12px;
+        }
+
+        .email{
+            font-size: 10px;
+        }
+    }
+
+    @media (min-width:768px) and (max-width:991px) {
+        .email{
+            font-size: 8px;
+        }
+    }
+
 </style>

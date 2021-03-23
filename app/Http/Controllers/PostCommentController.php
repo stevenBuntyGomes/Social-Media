@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\User;
 use App\Http\Resources\CommentCollection;
+use App\Events\CommentNotification;
 
 class PostCommentController extends Controller
 {
@@ -45,6 +46,8 @@ class PostCommentController extends Controller
             'user_id' => auth()->user()->id,
         ]));
 
+        $user = User::where('id', $post->user_id)->first();
+        broadcast(new CommentNotification($user));
 
         return new CommentCollection($post->comments);
     }

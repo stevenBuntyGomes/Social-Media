@@ -16,6 +16,7 @@ class UserCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
+            'user_count' => $this->count(),
             'links' => [
                 'self' => url('/users'),
             ],

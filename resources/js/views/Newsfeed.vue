@@ -4,7 +4,7 @@
             </Newpost>
             <div v-if = "newsPostStatus.newsPostStatus === 'loading'">Loading posts....</div>
             <div v-else-if = "newsPostStatus.newsPostStatus == 'success' && posts.length < 1">No posts found....!</div>
-            <Post v-else v-for = "(post, postKey) in posts.data" :key = "postKey" :post="post"></Post>
+            <Post v-else v-for = "(post, postKey) in posts.data" :key = "postKey" :post="post" @post_key = "removePost"></Post>
     </div>
 </template>
 
@@ -40,6 +40,13 @@ export default {
             posts: 'posts',
             newsPostStatus: 'newsPostStatus',
         })
+    }, 
+
+
+    methods: {
+        removePost(postKey){
+            this.posts.data.splice(postKey, 1);
+        }
     }
 }
 

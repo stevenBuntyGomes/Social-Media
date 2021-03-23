@@ -1,5 +1,5 @@
 const state = {
-    contacts: null,
+    contacts: [],
     messages: [],
     notification: false,
 };

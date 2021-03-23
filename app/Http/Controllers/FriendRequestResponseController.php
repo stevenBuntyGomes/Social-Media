@@ -7,6 +7,7 @@ use App\Friend;
 use App\Http\Resources\Friend as FriendResource;
 use App\Exceptions\FriendRequestNotFoundException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Events\AcceptFriendRequest;
 
 class FriendRequestResponseController extends Controller
 {
@@ -32,6 +33,7 @@ class FriendRequestResponseController extends Controller
         //merging the $data array and Friend::model array together
         //this way the confirmed_at will join with user_id and status together
 
+        broadcast(new AcceptFriendRequest($friendRequest));
         return new FriendResource($friendRequest);
     }
 

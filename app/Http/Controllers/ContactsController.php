@@ -30,8 +30,8 @@ class ContactsController extends Controller
             $contact->unread = $contactUnread ? $contactUnread->messages_count : 0;
             return $contact;
         });
-        return response()->json($contacts);
-        // return new UserCollection($contacts);
+        //return response()->json($contacts);
+        return new UserCollection($contacts);
     }
 
 
