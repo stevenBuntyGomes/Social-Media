@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::middleware('auth:api')->group(function() {
     // Route::get('/user', function (Request $request) {
     //     return $request->user();
@@ -72,4 +73,34 @@ Route::middleware('auth:api')->group(function() {
     Route::get('/countChatContacts', 'ContactsController@totalUnread');
 
     // contact message route ends
+
+
+    // mybook part starts
+
+
+    Route::post('/auth/book', 'BookController@getUserBooks');
+    Route::post('/get_books', 'BookController@bookFeed');
+    Route::post('/mybook/createMyBook', 'BookController@createBook');
+    // Route::post('/book/createMyBook', 'BookController@createBook');
+    Route::post('/mybook/storePages', 'BookController@storePages');
+    Route::post('/book/addImage', 'BookController@addImage');
+    Route::post('/mybook/addPageDB', 'BookController@addPageDB');
+    Route::post('/mybook/editPageDB', 'BookController@editPageDB');
+    Route::post('/book/removeImage', 'BookController@removeImage');
+    Route::post('/book/removeBookImage', 'BookController@removeBookImage');
+    // bookLove part starts
+    route::post('/book/{book_id}/loveBook', 'LoveBookController@store');
+    // bookLove part ends
+    // bookComments starts
+    route::post('/book/{book_id}/comment', 'BookCommentController@store');
+    // bookComments ends
+    // mybook part ends
+    route::post('/book/editBookDB', 'BookController@editBookToDB');
+    route::post('/book/getBookPages', 'BookController@getBookPages');
+
+    // get Notification starts
+    route::post('/mybook/getNotifications', 'NotificationController@index');
+    route::post('/book/deleteNotification', 'NotificationController@DeleteNotification');
+    // get Notification ends
 });
+Route::get('mybook/pages/{book_id}', 'BookController@index');

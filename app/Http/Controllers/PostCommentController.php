@@ -7,6 +7,8 @@ use App\Post;
 use App\User;
 use App\Http\Resources\CommentCollection;
 use App\Events\CommentNotification;
+use App\Notification;
+use App\Events\NewBookNotification;
 
 class PostCommentController extends Controller
 {
@@ -46,8 +48,20 @@ class PostCommentController extends Controller
             'user_id' => auth()->user()->id,
         ]));
 
-        $user = User::where('id', $post->user_id)->first();
-        broadcast(new CommentNotification($user));
+        // $user = User::where('id', $post->user_id)->first();
+        // broadcast(new CommentNotification($user));
+
+        if($post->user_id !== Auth()->id()){
+                $notification = Notification::create([
+                    'from' => Auth()->id(),
+                    'to' => $post->user_id,
+                    'notification_type' => 'post',
+                    'book_id' => null,
+                    'post_id' => $post->id,
+                    'status' => 4,
+                ]);
+                broadcast(new NewBookNotification($notification));
+            }
 
         return new CommentCollection($post->comments);
     }

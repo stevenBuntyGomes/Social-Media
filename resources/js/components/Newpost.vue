@@ -4,11 +4,14 @@
             <div>
                 <div class = 'w-8'>
                     <img class = "w-8 h-8 object-cover rounded-full"
-                    :src="authUser.data.attributes.profile_image.data.attributes.path" alt="">
+                    :src="authUser.data.attributes.profile_image.data.attributes.path" alt="profile-image">
                 </div>
             </div>
             <div class = "flex-1 flex ml-3 mr-3">
-                <input v-model = "postMessage" type="text" name = "body" class = "w-full pl-4 h-8 bg-gray-200 rounded-full focus:outline-none focus:shadow-outline text-sm" placeholder = "Add a post">
+                <input v-model = "postMessage"
+                type="text"
+                name = "body"
+                class = "w-full pl-4 h-8 bg-gray-200 rounded-full focus:outline-none focus:shadow-outline text-sm" placeholder = "Add a post">
                 <transition name = "fade">
                     <button v-if = "postMessage"
                     @click = "postHandler"

@@ -17,8 +17,18 @@
         </div>
         <div class = "nav_part_two_responsive w-1/3 flex justify-center items-center h-full">
             <router-link to="/" class = "router_link px-6 border-b-2 border-blue-500 h-full flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-5 h-5"><path d="M22.6 11l-9.9-9c-.4-.4-1.1-.4-1.5 0l-9.9 9c-.3.3-.5.8-.3 1.2.2.5.6.8 1.1.8h1.6v9c0 .4.3.6.6.6h5.4c.4 0 .6-.3.6-.6v-5.5h3.2V22c0 .4.3.6.6.6h5.4c.4 0 .6-.3.6-.6v-9h1.6c.5 0 .9-.3 1.1-.7.3-.5.2-1-.2-1.3zm-2.5-8h-4.3l5 4.5V3.6c0-.3-.3-.6-.7-.6z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-fill" viewBox="0 0 16 16">
+                    <path d="M8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                </svg>
             </router-link>
+
+            <router-link to="/newsFeed" class = "router_link px-6 border-b-2 border-blue-500 h-full flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                </svg>
+            </router-link>
+
             <router-link :to="'/users/' + authUser.data.user_id" class = "router_link px-6 border-b-2 border-white h-full flex items-center">
                 <img class = "w-8 h-8 object-cover rounded-full nav_profile_image"
                 :src="authUser.data.attributes.profile_image.data.attributes.path" alt="">
@@ -30,30 +40,86 @@
         </div>
         <div class = "nav_part_three_responsive w-1/3 flex justify-end relative">
         <!-- notification button starts -->
-            <button @click = "notification = ! notification; eventLight = false" class = "focus-outline-none mr-3 relative">
+            <button @click = "notificationBar = ! notificationBar; eventLight = false; requestedUser = getAuthNotification" class = "focus-outline-none mr-3 relative">
                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
                     <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
                 </svg>
                 <div class = "alertNotification" v-if = "eventLight"></div>
             </button>
-            <div v-if="notification" class = "z-50 absolute top-8 bg-white border border-gray-400 shadow-sm">
+            <div v-if = "notificationBar" class = "z-50 absolute top-8 bg-white border border-gray-400 shadow-sm notificationList">
                 <div class = "">
                     <ul>
-                        <li v-for = "user in requestedUser" :key = "user.data.user_id" class = "p-3 m-0 border border-gray-400">
-                            <div class="contact">
-                                    <p v-if = "eventType == 1" class = "font-normal no-underline">Request From</p>
-                                    <p v-if = "eventType == 2" class = "font-normal no-underline">Request Accepted by</p>
-                                    <p v-if = "eventType == 3" class = "font-normal no-underline">New Post From</p>
-                                    <p v-if = "eventType == 4" class = "font-normal no-underline">New Comment From</p>
-                                    <p v-if = "eventType == 5" class = "font-normal no-underline">New Like From</p>
-                            </div>
-                            <div class="avatar">
-                                <img class = "chat-image rounded-full" :src="user.data.attributes.profile_image.data.attributes.path" alt="hello">
+                        <li v-for = "(notification, notifyKey) in getAuthNotification.data" :key = "notifyKey" class = "p-3 m-0 border border-gray-400 relative notificationListItem">
+                            <div class = "absolute notificationDeletOption">
+                                <button @click = "deleteNotification(notification, notifyKey)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash notificationDeletOptionButton" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </button>
                             </div>
                             <div class="contact">
-                                <router-link :to = "'/users/' + user.data.user_id">
-                                    <p class = "name no-underline">{{ user.data.attributes.name }}</p>
-                                </router-link>
+                                    <div v-if = "notification.data.attributes.status == 1" class = "font-normal no-underline">Friend Request From</div>
+                                    <div v-if = "notification.data.attributes.status == 2" class = "font-normal no-underline">Request Accepted by</div>
+                                    <div v-if = "notification.data.attributes.status == 3" class = "font-normal no-underline">New
+                                            <p
+                                            class = "font-bold cursor-pointer text-blue-400"
+                                            @click = "goToPostView(notification.data.attributes.post)">
+                                                Post
+                                            </p>
+                                            From
+                                         </div>
+                                    <div v-if = "notification.data.attributes.status == 4" class = "font-normal no-underline">New Comment On
+                                        <p
+                                            class = "font-bold cursor-pointer text-blue-400"
+                                            @click = "goToPostView(notification.data.attributes.post)">
+                                                Post
+                                            </p>
+
+                                        From</div>
+                                    <div v-if = "notification.data.attributes.status == 5" class = "font-normal no-underline">New Like On
+
+                                            <p
+                                            class = "font-bold cursor-pointer text-blue-400"
+                                            @click = "goToPostView(notification.data.attributes.post)">
+                                                Post
+                                            </p>
+                                            From
+                                         </div>
+                                    <div v-if = "notification.data.attributes.status == 6" class = "font-normal no-underline">New
+                                        <p
+                                        class = "font-bold cursor-pointer text-blue-400"
+                                        @click = "goToBookView(notification.data.attributes.book)">
+                                            Book
+                                        </p>
+                                        From
+                                    </div>
+                                    <div v-if = "notification.data.attributes.status == 7" class = "font-normal no-underline">New Love On
+                                        <p
+                                        class = "font-bold cursor-pointer text-blue-400"
+                                        @click = "goToBookView(notification.data.attributes.book)">
+                                            Book
+                                        </p>
+                                        From
+                                    </div>
+                                    <div v-if = "notification.data.attributes.status == 8" class = "font-normal no-underline">New Comment On
+                                        <p
+                                        class = "font-bold cursor-pointer text-blue-400"
+                                        @click = "goToBookView(notification.data.attributes.book)">
+                                            Book
+                                        </p>
+                                        From
+                                    </div>
+                            </div>
+                            <div class = "inline flex">
+                                <div class = "avatar">
+                                    <img class = "chat-image rounded-full" :src="notification.data.attributes.from.data.attributes.profile_image.data.attributes.path" alt="hello">
+                                </div>
+                                <div class="contact">
+                                    <router-link :to = "'/users/' + notification.data.attributes.from.data.user_id">
+                                        <p class = "name no-underline">{{ notification.data.attributes.from.data.attributes.name }}</p>
+                                    </router-link>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -90,13 +156,14 @@ export default {
     name: 'Nav',
     data: () => {
         return {
-            notification: false,
             settings: false,
-            notification: false,
+            notificationBar: false,
             keywords: null,
             requestedUser: [],
             eventType: 0,
             eventLight: false,
+            bookLink: null,
+            postLink: null,
         }
     },
 
@@ -108,6 +175,14 @@ export default {
 
 
     mounted(){
+
+            // this.$store.dispatch('AuthNotification', {
+            //     userId: this.authUser.data.user_id,
+            // });
+            this.$store.dispatch('AuthNotification');
+
+            this.requestedUser = this.getAuthNotification;
+
             var self = this;
             axios.get('/api/countChatContacts')
             .then(function (response){
@@ -167,6 +242,39 @@ export default {
                 alert(e.liked_by);
             });
             // post Like Notification channel ends
+
+            // new book notification channel starts
+
+            Echo.private(`NewBookNotification.${this.authUser.data.user_id}`) //the pusher problem was created here
+            .listen('NewBookNotification', (e) => {
+                this.eventLight = true;
+                this.incomingEventBookNotification(e.book_notification);
+                alert(e.book_notification);
+            });
+
+            // new book notification channel ends
+
+            // book love notification starts
+
+            Echo.private(`bookLoveNotification.${this.authUser.data.user_id}`) //the pusher problem was created here
+            .listen('BookLove', (e) => {
+                this.eventLight = true;
+                this.incomingEventBookLove(e.loved_by, 7);
+                alert(e.liked_by);
+            });
+
+            // book love notification ends
+
+            // book comment notification starts
+
+            Echo.private(`BookCommentNotification.${this.authUser.data.user_id}`) //the pusher problem was created here
+            .listen('BookCommentNotification', (e) => {
+                this.eventLight = true;
+                this.incomingBookCommentNotification(e.book_comment, 8);
+                alert(e.book_comment);
+            });
+
+            // book comment notification ends
     },
 
     methods: {
@@ -214,8 +322,65 @@ export default {
         incomingEventLike(liked_by, data){
             this.requestedUser.unshift(liked_by);
             this.eventType = data;
-        }
+        },
 
+        // event book notification starts
+
+        incomingEventBookNotification(book_notification){
+            // this.requestedUser.data.unshift(book_notification);
+            this.getAuthNotification.data.unshift(book_notification);
+        },
+
+        // event book notification ends
+
+        // event book love norification starts
+
+        incomingEventBookLove(loved_by, data){
+            this.requestedUser.unshift(loved_by);
+            this.eventType = data;
+        },
+
+        // event book love norification ends
+        // event book comment norification starts
+
+        incomingBookCommentNotification(book_comment, data){
+            this.requestedUser.unshift(book_comment);
+            this.eventType = data;
+        },
+
+        // event book comment norification ends
+
+        // goToBook starts
+        goToBookView(book){
+            if(this.$route.path != '/bookView'){
+                this.$router.push({name: 'bookView', params: {thisBook: book}});
+            }else{
+                this.$router.push({name: 'loadingBook', params: {thisBook: book}});
+            }
+        },
+        // goToBook ends
+
+        // goToPost starts
+        goToPostView(post){
+            if(this.$route.path != '/postView'){
+                this.$router.push({name: 'postView', params: {thisPost: post}});
+            }else{
+                this.$router.push({name: 'loadingPost', params: {thisPost: post}});
+            }
+        },
+        // goToPost ends
+
+        // deleteNotification starts
+        deleteNotification(notification, notifyKey){
+            this.$store.dispatch('fetchDeleteNotification', {
+                notification_id: notification.data.notification_id,
+                key: notifyKey,
+            });
+
+            this.getAuthNotification.data.splice(notifyKey, 1);
+            console.log(notifyKey);
+        },
+        // deleteNotification ends
 
 
     },
@@ -227,6 +392,7 @@ export default {
             getNotification: 'getNotification',
             toggleSettings: 'toggleSettings',
             getUserSearch: 'getUserSearch',
+            getAuthNotification: 'getAuthNotification',
         })
     },
 
@@ -241,6 +407,48 @@ export default {
 
 
 <style scoped>
+
+    .notificationList{
+        height: 600px;
+        width: 350px!important;
+        border-radius: 15px;
+        overflow: scroll;
+    }
+
+    .notificationDeletOption{
+        right: 10%;
+    }
+
+    .notificationDeletOptionButton{
+        width: 35px;
+        height: 25px;
+        /* border: 1px solid #000000; */
+        transition: 0.2s;
+        border-radius: 15%;
+        text-align: center;
+        line-height: 25px;
+        background: #ffffff;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        display: none;
+    }
+
+    .notificationDeletOptionButton:hover {
+        color: #ffffff;
+        box-shadow: none;
+        background: rgb(255, 51, 51);
+    }
+
+    .notificationListItem{
+        transition: 0.2s;
+    }
+
+
+    .notificationListItem:hover .notificationDeletOptionButton{
+        transition: 0.2s;
+        display: block;
+
+    }
+
     .alertMessage{
         position: absolute;
         top: 25%;
@@ -262,15 +470,14 @@ export default {
     }
 
     .chat-image{
-        width: 20px;
-        height: 20px;
-        margin: 0 auto;
+        width: 24px;
+        height: 24px;
     }
 
 
     .avatar{
-        display: flex;
-        align-items: center;
+        /* display: flex; */
+        /* align-items: left!important; */
         padding-right: 10px;
     }
 

@@ -40,7 +40,7 @@ export default {
             posts: 'posts',
             newsPostStatus: 'newsPostStatus',
         })
-    }, 
+    },
 
 
     methods: {

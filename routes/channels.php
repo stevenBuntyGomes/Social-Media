@@ -71,3 +71,30 @@ Broadcast::channel('postLikeNotifications.{id}', function ($user, $id) {
 });
 
 // post Like Notification channel accept ends
+
+
+// NewBookNotification channel accept starts
+Broadcast::channel('NewBookNotification.{id}', function ($user, $id) {
+    // dd($user->id, $id);
+    return (int) $user->id === (int) $id; //when the auth user = $user id will be equal to
+    // $id that has been sent through {id} will make the event occure.
+});
+// NewBookNotification channel accept ends
+
+// LoveBook notification channel starts
+
+Broadcast::channel('bookLoveNotification.{id}', function ($user, $id) {
+    // dd($user->id, $id);
+    return (int) $user->id === (int) $id; //when the auth user = $user id will be equal to
+    // $id that has been sent through {id} will make the event occure.
+});
+
+// LoveBook notification channel ends
+
+// book comment notification starts
+
+Broadcast::channel('BookCommentNotification.{id}', function ($user, $id){
+    return (int) $user->id === (int) $id;
+});
+
+// book comment notification ends

@@ -8,6 +8,8 @@ import chatContacts from './modules/chatContact.js';
 import Search from './modules/search.js';
 import About from './modules/about.js';
 import windowWidth from './modules/windowWidth.js';
+import book from './modules/book.js';
+import notification from './modules/notification.js';
 
 Vue.use(Vuex);
 
@@ -22,5 +24,7 @@ export default new Vuex.Store({
         Search,
         About,
         windowWidth,
+        book,
+        notification,
     }
 })

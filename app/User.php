@@ -92,4 +92,21 @@ class User extends Authenticatable
     // }
 
     // userImage relationship ends
+
+
+    // mybooks db relation starts
+    public function Books(){
+        return $this->hasmany(Book::class);
+    }
+
+    public function Pages(){
+        return $this->hasmany(Page::class);
+    }
+
+
+    public function books_loved(){
+        return $this->belongsToMany(Post::class, 'love_books', 'user_id', 'book_id');
+    }
+    // mybooks db relation ends
+
 }

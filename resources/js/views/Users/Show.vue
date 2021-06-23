@@ -14,8 +14,8 @@
                     :user-image = "user.data.attributes.cover_image"></UploadableImage>
                 </div>
                 <!-- <p>{{ user.data.attributes.name }}</p> -->
-            
-            
+
+
             </div>
             <!-- profile image staarts -->
                 <div class="responsive_image absolute flex items-center bottom-0 left-0 -mb-8 ml-12 z-20">
@@ -32,7 +32,7 @@
                     <p class = "responsive_profile_name text-2xl text-gray-100 ml-4">{{ user.data.attributes.name }}</p>
                 </div>
             <!-- profile image ends -->
-            
+
             <div class="options_responsive absolute flex items-center bottom-0 right-0 mb-4 mr-12 z-20">
                 <button v-if = "friendButtonText && friendButtonText == 'Add Friend'"
                     class = "py-1 px-3 bg-gray-400 rounded options_button"
@@ -106,14 +106,58 @@
 
             </div>
         </div>
+        <div class = "px-4 flex items-center border border-grey-400 shadow-sm">
+            <div class = "w-1/3">
+
+            </div>
+            <div class = "w-1/3 flex justify-center items-center h-fill info_part">
+                <router-link :to="'/book/' + $route.params.userId" class = "py-6 px-6 flex h-full items-center icon-color">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book mr-2" viewBox="0 0 16 16">
+                        <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                    </svg>
+                    Books
+                </router-link>
+                <router-link :to="'/users-feeds/' + $route.params.userId" class = "py-6 px-6 flex h-full items-center icon-color">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                    Feeds
+                </router-link>
+            </div>
+            <div class = "w-1/3">
+
+            </div>
+        </div>
+            <div class = "bg-white rounded  shadow w-1/3 mt-6 p-4">
+                <div class = "flex justify-start items-center">
+                        <div class = 'w-8'>
+                            <img class = "w-8 h-8 object-cover rounded-full"
+                            :src="authUser.data.attributes.profile_image.data.attributes.path" alt="">
+                        </div>
+                    <div class = "ml-5">
+                        <Button>
+                            <router-link  outer-link to = "/createBook" class = "flex justify-between items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle mr-2" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                </svg>
+                                Create A new Book
+                            </router-link>
+                        </Button>
+                    </div>
+                </div>
+            </div>
             <div v-if = "newsPostStatus.newsPostStatus == 'loading'">Loading posts....</div>
             <div v-else-if = "newsPostStatus.newsPostStatus == 'success' && posts.length < 1">No posts found....!</div>
-            <Post v-else v-for = "(post, postKey) in posts.data" :key = "postKey" :post="post" @post_key = "removePost"></Post>
+            <!-- <Post v-else v-for = "(post, postKey) in posts.data" :key = "postKey" :post="post" @post_key = "removePost"></Post> -->
+            <myBook v-for = "(book, bookKey) in allBooks.data" :key = "bookKey" :book="book"></myBook>
     </div>
 
 </template>
 <script>
     import Post from '../../components/Post.vue';
+    import myBook from '../../components/books/mybook.vue';
     import UploadableImage from '../../components/UploadableImage.vue';
     import { mapGetters } from 'vuex';
 
@@ -135,6 +179,7 @@
         components: {
             Post,
             UploadableImage,
+            myBook,
         },
 
         mounted(){
@@ -142,6 +187,9 @@
                 // dispatching user id and user information
                 this.$store.dispatch('fetchUser', this.$route.params.userId);
                 this.$store.dispatch('fetchUserPosts', this.$route.params.userId);
+                this.$store.dispatch('fetchAuthBook', {
+                    user_id: this.$route.params.userId,
+                });
         },
 
         methods: {
@@ -159,6 +207,7 @@
                 profileStatus: 'profileStatus',
                 newsPostStatus: 'newsPostStatus',
                 friendButtonText: 'friendButtonText',
+                allBooks: 'allBooks',
             }),
         }
     }
@@ -178,14 +227,14 @@
 
     @media (max-width: 575.5px){
        .responsive_image{
-            top: 85%; 
+            top: 85%;
             left: 50%;
-            transform: translate(-50%, -50%); 
+            transform: translate(-50%, -50%);
             margin-left: 0px!important;
             z-index: 50;
             overflow: visible!important;
         }
-        
+
 
         .responsive_profile_name{
             position: absolute;
@@ -220,9 +269,9 @@
 
     @media (min-width:576px) and (max-width:767.9px) {
         .responsive_image{
-            top: 85%; 
+            top: 85%;
             left: 50%;
-            transform: translate(-50%, -50%); 
+            transform: translate(-50%, -50%);
             margin-left: 0px!important;
             z-index: 50;
             overflow: visible!important;
@@ -250,7 +299,7 @@
 
         .info_part{
             font-size: 14px;
-        }  
+        }
     }
 
 

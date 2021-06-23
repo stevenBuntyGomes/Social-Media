@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\Notification;
 use App\Http\Resources\Post as PostResource;
 use App\Http\Resources\PostCollection as PostCollection;
 use App\Friend;
 use Intervention\Image\Facades\Image;
 use App\User;
 use App\Events\PostNotification;
+use App\Events\NewBookNotification;
 
 class PostController extends Controller
 {
@@ -61,6 +63,8 @@ class PostController extends Controller
 
         ]);
 
+        // broadcasting news Post through private channel in pusher starts
+
         $friends = Friend::friendships();
         $postUsers = User::whereIn('id', $friends->pluck('user_id'))->orWhereIn('id', $friends->pluck('friend_id'))->where('id', '!=', Auth()->id())->get();
 
@@ -68,10 +72,22 @@ class PostController extends Controller
             if($user->id == Auth()->id()){
                 continue;
             }else{
-                broadcast(new PostNotification($user));
+                // broadcast(new PostNotification($user));
+
+                $notification = Notification::create([
+                    'from' => Auth()->id(),
+                    'to' => $user->id,
+                    'notification_type' => 'post',
+                    'book_id' => null,
+                    'post_id' => $post->id,
+                    'status' => 3,
+                ]);
+                broadcast(new NewBookNotification($notification));
             }
 
         }
+
+        // broadcasting news Post through private channel in pusher ends
 
         return new PostResource($post);
     }
@@ -131,7 +147,7 @@ class PostController extends Controller
         ]);
 
         Post::where('id', $data['post_id'])->delete();
-        
+
         return response()->json('post has been deleted');
     }
 

@@ -66,7 +66,7 @@ import {mapGetters} from 'vuex'
 export default {
     name: "accountSettings",
 
-    data: () => {
+    data:() => {
         return {
             changeProfileName: '',
             oldPassword: '',
